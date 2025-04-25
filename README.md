@@ -33,7 +33,6 @@ For a locally maintained application, my recommendation would be to have a weekl
 
 # Project usage instructions
 
-`docker compose up --build`
 
 This service provides an HTTP endpoint to check whether a given IP address belongs to an allowed country.
 
