@@ -29,3 +29,71 @@ There is a question posed in the coding requirements of "Documenting a plan for 
 For a production ready application, my recommendation would be to have the CI/CD rebuild the docker image we are deploying weekly with the docker build file downloading the latest MMDB.
 
 For a locally maintained application, my recommendation would be to have a weekly script run and download the latest MMBD. I have included a sample powerscript file (omitting the needed API key)
+
+
+# Project usage instructions
+
+`docker compose up --build`
+
+This service provides an HTTP endpoint to check whether a given IP address belongs to an allowed country.
+
+## 📘 Endpoint
+
+**POST** `/ip-authorization`
+
+---
+
+## 📄 Description
+
+Checks whether a given IP address is from one of the allowed countries.
+
+---
+
+## 📥 Request
+
+**Content-Type**: `application/json`
+
+### Body Example
+
+```json
+{
+  "ip": "8.8.8.8",
+  "allowed_countries": ["US", "CA", "GB"]
+}
+```
+
+### Fields
+
+| Field             | Type       | Required | Description                                       |
+|------------------|------------|----------|---------------------------------------------------|
+| `ip`             | string     | ✅        | The IPv4 or IPv6 address to check.                |
+| `allowed_countries` | string[] | ✅        | List of ISO country codes (e.g., "US", "CA").     |
+
+---
+
+## 📤 Response
+
+**Content-Type**: `application/json`
+
+### Body Example
+
+```json
+{
+  "allowed": true
+}
+```
+
+### Fields
+
+| Field     | Type    | Description                                                 |
+|-----------|---------|-------------------------------------------------------------|
+| `allowed` | boolean | `true` if the IP’s country is in the allowed list; otherwise `false`. |
+
+---
+
+## ❌ Error Responses
+
+| Code | Message           | Description                                |
+|------|-------------------|--------------------------------------------|
+| 400  | `Invalid request` | Malformed JSON or missing required fields. |
+| 500  | `Internal error`  | Internal server or GeoIP lookup error.     |
